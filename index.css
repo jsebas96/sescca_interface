@@ -22,3 +22,13 @@ body, html {
     left: 60px;
     font-family: "Raleway", sans-serif;
 }
+#cloud_2{
+    background:transparent url('images/pajaro-negro.png') no-repeat right top;
+    background-size: 100px 100px;
+    background-attachment: fixed;
+}
+#cloud_1{
+    background:transparent url('images/pajaro-rojo.png') no-repeat left center;
+    background-size: 80px 80px;
+    background-attachment: fixed;
+}

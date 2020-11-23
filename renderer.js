@@ -64,6 +64,7 @@ function showGUI(results1, times) {
         } else {
             output += '<img class="mb-1" src="images/nube.png" alt="cloud" width="200" height="75">';
             output += '<span class="text">' + results.names[i] + '</span>';
+            output += '<span class="ml-5"></span>';
             output += '<img class="mb-1 ml-5" src="images/sol-con-cara.png" alt="sun" width="40" height="40"></img>';
             output += '<img class="mb-1" src="images/sol-con-cara.png" alt="sun" width="40" height="40"></img>';
             output += '<img class="mb-1" src="images/sol-con-cara.png" alt="sun" width="40" height="40"></img>';
