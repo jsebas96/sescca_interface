@@ -4,9 +4,9 @@ from mysql.connector import Error
 
 def read_DB():
     try:
-        connection = mysql.connector.connect(host='localhost', database='mydb', user='admin', password='Juanse&960604')
+        connection = mysql.connector.connect(host='localhost', database='sesccabase', user='pi', password='OEnj9u#DhhB7E)|*0')
 
-        sql_select_Query = "select * from students"
+        sql_select_Query = "select * from dashboard_student"
         cursor = connection.cursor()
         cursor.execute(sql_select_Query)
         records = cursor.fetchall()
@@ -15,7 +15,7 @@ def read_DB():
         scores = []
         for row in records:
             names.append(row[1])
-            scores.append(row[3])
+            scores.append(row[4])
         base = {'names':names, 'scores':scores}
         data = json.dumps(base)
         return data
