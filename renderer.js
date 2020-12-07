@@ -12,7 +12,7 @@ const lottie = require('./lottie');
 lottie.loadAnimation({
     container: document.getElementById("lottie"), // the dom element that will contain the animation
     renderer: 'svg',
-    loop: true,
+    loop: false,
     autoplay: true,
     path: 'json/robot-hello.json' // the path to the animation json
 });
