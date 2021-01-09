@@ -1,0 +1,56 @@
+body, h1 {
+    font-family: "Raleway", sans-serif;
+}
+body, html {
+    height: 100%;
+}
+.bgimg {
+    background-image: url('images/paisaje.jpg');
+    min-height: 100%;
+    background-position: center;
+    background-size: cover;
+} 
+
+ .cloudup{
+    margin: 0px;
+    width: 250px;
+    height: 100px;
+}
+
+.clouddown{
+    margin: 30px 0px 0px 0px;
+    width: 250px;
+    height: 100px;
+}
+.sun{
+    margin: 0px;
+    width: 150px;
+    height: 150px;
+}
+/*.cloud .text {
+    position: absolute;
+    text-align: center;
+    top: 30px;
+    left: 60px;
+    font-family: "Raleway", sans-serif;
+}
+
+#bird1{
+    margin-top: 200px;
+    transform: scaleX(-1);
+}
+
+#bird2{
+    margin-top: 200px; 
+}
+
+/* #cloud_2{
+    background:transparent url('images/pajaro-negro.png') no-repeat right top;
+    background-size: 100px 100px;
+    background-attachment: fixed;
+}
+#cloud_1{
+    background:transparent url('images/pajaro-rojo.png') no-repeat left center;
+    background-size: 80px 80px;
+    background-attachment: fixed;
+} */

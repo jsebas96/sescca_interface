@@ -1,3 +1,4 @@
 node_modules/
 .vscode/
-test.py
+ind_view.py
+group_view.py
