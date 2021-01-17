@@ -1,6 +1,11 @@
 var test = setInterval(sendToPython, 10000);
-
+var { PythonShell } = require('python-shell');
 const lottie = require('./lottie');
+
+var byStudent = document.getElementById("ByStudent");
+var byGroup = document.getElementById("ByGroup");
+byStudent.style.display = "none";
+byGroup.style.display = "none";
 
 lottie.loadAnimation({
     container: document.getElementById("lottie"), // the dom element that will contain the animation
@@ -11,7 +16,6 @@ lottie.loadAnimation({
 });
 
 var global_control = -2;
-let i = 0;
 
 function sendToPython() {
     if (global_control == -2) {
@@ -19,18 +23,40 @@ function sendToPython() {
         anim.style.display = "none";
         global_control++;
     }
-    var { PythonShell } = require('python-shell');
 
     let options = {
         mode: 'json',
-        //args: [input.value]
     };
-    var results1 = [];//JSON.parse('{"names":[], "scores":[]}');
 
+    PythonShell.run('python/which_view.py', options, function(err, states){
+        if (err) throw err;
+        for(let i=0; i<states[0].names.length;i++){
+            if(states[0].states[i]){
+                if(states[0].names[i] == 'Vista Individual'){
+                    // console.log(states[0].names[i]);
+                    byStudent.style.display = "flex";
+                    byGroup.style.display = "none";
+                    individualView();
+                } else if (states[0].names[i] == 'Vista Grupal'){
+                    // console.log(states[0].names[i]);
+                    byStudent.style.display = "none";
+                    byGroup.style.display = "flex";
+                    groupView();
+                }
+            }
+        }
+    });
+}
+
+function individualView(){
+    let options = {
+        mode: 'json',
+    };
+    let results1 = [];
     PythonShell.run('python/ind_view.py', options, function (err, results) {
         if (err) throw err;
-        var i = 0, j = 0, k = 0;
-        var times = Math.ceil(results[0].names.length / 12);
+        let i = 0, j = 0, k = 0;
+        let times = Math.ceil(results[0].names.length / 12);
         for (i = 0; i < times; i++) {
             results1[i] = JSON.parse('{"names":[], "scores":[]}');
             for (k = 0; k < 12; k++) {
@@ -45,18 +71,18 @@ function sendToPython() {
         showGUI(results1, times);
     });
 }
+
 function showGUI(results1, times) {
     if (global_control == times - 1) {
         global_control = -1;
     }
     global_control += 1;
-    var results = results1[global_control];
-    console.log(global_control);
-    var col_cloud_1 = document.getElementById("cloud_1");
-    var col_cloud_2 = document.getElementById("cloud_2");
+    let results = results1[global_control];
+    let col_cloud_1 = document.getElementById("cloud_1");
+    let col_cloud_2 = document.getElementById("cloud_2");
 
-    var output = "";
-    var i = 0, j = 0;
+    let output = "";
+    let i = 0, j = 0;
 
     col_cloud_1.innerHTML = output;
     col_cloud_2.innerHTML = output;
@@ -99,4 +125,50 @@ function showGUI(results1, times) {
             }
         }
     }
+}
+
+function groupView(){
+    let options = {
+        mode: 'json',
+    };
+    PythonShell.run('python/group_view.py', options, function (err, mean) {
+        if (err) throw err;
+    });
+    showGUIGroup(4);
+}
+
+function showGUIGroup(mean){
+    birdLeft1 = document.getElementById("left-1");
+    birdLeft2 = document.getElementById("left-2");
+    birdLeft3 = document.getElementById("left-3");
+    birdLeft4 = document.getElementById("left-4");
+    birdRight1 = document.getElementById("right-1");
+    birdRight2 = document.getElementById("right-2");
+    birdRight3 = document.getElementById("right-3");
+    birdRight4 = document.getElementById("right-4");
+    birdLeft1.style.opacity = "0.5";
+    birdLeft2.style.opacity = "0.5";
+    birdLeft3.style.opacity = "0.5";
+    birdLeft4.style.opacity = "0.5";
+    birdRight1.style.opacity = "0.5";
+    birdRight2.style.opacity = "0.5";
+    birdRight3.style.opacity = "0.5";
+    birdRight4.style.opacity = "0.5";
+
+    if(mean>=1)
+    birdRight1.style.opacity = "1";
+    if(mean>2)
+        birdLeft1.style.opacity = "1";
+    if(mean>=3)
+        birdRight2.style.opacity = "1";
+    if(mean>=4)
+        birdLeft2.style.opacity = "1";
+    if(mean>=5)
+        birdRight3.style.opacity = "1";
+    if(mean>=6)
+        birdLeft3.style.opacity = "1";
+    if(mean>=7)
+        birdRight4.style.opacity = "1";
+    if(mean>=8)
+        birdLeft4.style.opacity = "1";
 }

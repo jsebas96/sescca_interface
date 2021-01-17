@@ -1,17 +1,4 @@
-body, h1 {
-    font-family: "Raleway", sans-serif;
-}
-body, html {
-    height: 100%;
-}
-.bgimg {
-    background-image: url('images/paisaje.jpg');
-    min-height: 100%;
-    background-position: center;
-    background-size: cover;
-} 
-
- .cloudup{
+.cloudup{
     margin: 0px;
     width: 250px;
     height: 100px;

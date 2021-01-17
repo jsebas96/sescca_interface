@@ -11,18 +11,18 @@ function createWindow() {
 
     win.loadFile('index.html')
     win.removeMenu()
-    // win.webContents.openDevTools()
+    win.webContents.openDevTools()
 
-    const win2 = new BrowserWindow({
-        width: 1366,
-        height: 768,
-        webPreferences: {
-            nodeIntegration: true
-        }
-    })
-    win2.loadFile('group_mean.html')
-    win2.removeMenu()
-    // win2.webContents.openDevTools()
+    // const win2 = new BrowserWindow({
+    //     width: 1366,
+    //     height: 768,
+    //     webPreferences: {
+    //         nodeIntegration: true
+    //     }
+    // })
+    // win2.loadFile('group_mean.html')
+    // win2.removeMenu()
+    // // win2.webContents.openDevTools()
 }
 
 app.whenReady().then(createWindow)
