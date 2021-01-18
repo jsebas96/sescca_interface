@@ -7,6 +7,11 @@ var byGroup = document.getElementById("ByGroup");
 byStudent.style.display = "none";
 byGroup.style.display = "none";
 
+var sunGroup = document.getElementById("sunGroup");
+sunGroup.style.width = "150px";
+sunGroup.style.height = "150px";
+var mean = 0;
+var result1 = "";
 lottie.loadAnimation({
     container: document.getElementById("lottie"), // the dom element that will contain the animation
     renderer: 'svg',
@@ -28,16 +33,16 @@ function sendToPython() {
         mode: 'json',
     };
 
-    PythonShell.run('python/which_view.py', options, function(err, states){
+    PythonShell.run('python/which_view.py', options, function (err, states) {
         if (err) throw err;
-        for(let i=0; i<states[0].names.length;i++){
-            if(states[0].states[i]){
-                if(states[0].names[i] == 'Vista Individual'){
+        for (let i = 0; i < states[0].names.length; i++) {
+            if (states[0].states[i]) {
+                if (states[0].names[i] == 'Vista Individual') {
                     // console.log(states[0].names[i]);
                     byStudent.style.display = "flex";
                     byGroup.style.display = "none";
                     individualView();
-                } else if (states[0].names[i] == 'Vista Grupal'){
+                } else if (states[0].names[i] == 'Vista Grupal') {
                     // console.log(states[0].names[i]);
                     byStudent.style.display = "none";
                     byGroup.style.display = "flex";
@@ -48,7 +53,7 @@ function sendToPython() {
     });
 }
 
-function individualView(){
+function individualView() {
     let options = {
         mode: 'json',
     };
@@ -127,48 +132,92 @@ function showGUI(results1, times) {
     }
 }
 
-function groupView(){
+function groupView() {
     let options = {
         mode: 'json',
     };
-    PythonShell.run('python/group_view.py', options, function (err, mean) {
+    PythonShell.run('python/group_view.py', options, function (err, result) {
         if (err) throw err;
+        result1 = result[0].means[0];
     });
-    showGUIGroup(4);
+    console.log(result1);
+    showGUIGroup(result1);
 }
 
-function showGUIGroup(mean){
-    birdLeft1 = document.getElementById("left-1");
-    birdLeft2 = document.getElementById("left-2");
-    birdLeft3 = document.getElementById("left-3");
-    birdLeft4 = document.getElementById("left-4");
-    birdRight1 = document.getElementById("right-1");
-    birdRight2 = document.getElementById("right-2");
-    birdRight3 = document.getElementById("right-3");
-    birdRight4 = document.getElementById("right-4");
-    birdLeft1.style.opacity = "0.5";
-    birdLeft2.style.opacity = "0.5";
-    birdLeft3.style.opacity = "0.5";
-    birdLeft4.style.opacity = "0.5";
-    birdRight1.style.opacity = "0.5";
-    birdRight2.style.opacity = "0.5";
-    birdRight3.style.opacity = "0.5";
-    birdRight4.style.opacity = "0.5";
+function showGUIGroup(result) {
+    ballLeft1 = document.getElementById("left-1");
+    ballLeft2 = document.getElementById("left-2");
+    ballLeft3 = document.getElementById("left-3");
+    ballLeft4 = document.getElementById("left-4");
+    ballRight1 = document.getElementById("right-1");
+    ballRight2 = document.getElementById("right-2");
+    ballRight3 = document.getElementById("right-3");
+    ballRight4 = document.getElementById("right-4");
 
-    if(mean>=1)
-    birdRight1.style.opacity = "1";
-    if(mean>2)
-        birdLeft1.style.opacity = "1";
-    if(mean>=3)
-        birdRight2.style.opacity = "1";
-    if(mean>=4)
-        birdLeft2.style.opacity = "1";
-    if(mean>=5)
-        birdRight3.style.opacity = "1";
-    if(mean>=6)
-        birdLeft3.style.opacity = "1";
-    if(mean>=7)
-        birdRight4.style.opacity = "1";
-    if(mean>=8)
-        birdLeft4.style.opacity = "1";
+    balls = [ballLeft1, ballLeft2, ballLeft3, ballLeft4, ballRight1, ballRight2, ballRight3, ballRight4];
+
+    for (element of balls) {
+        element.style.opacity = "0.2";
+    }
+
+    if (mean != result) {
+        mean = result;
+        lights();
+    }
+}
+
+var k = 0, callLights;
+function lights() {
+    if (k == 0)
+        callLights = setInterval(lights, 800);
+    if (k > 3) {
+        clearInterval(callLights);
+        k = 0;
+        for (element of balls) {
+            element.style.opacity = "0.2";
+        }
+        if (mean >= 1) {
+            sunGroup.style.width = "160px";
+            sunGroup.style.height = "160px";
+        }
+        if (mean > 2) {
+            sunGroup.style.width = "170px";
+            sunGroup.style.height = "170px";
+        }
+        if (mean >= 3) {
+            sunGroup.style.width = "180px";
+            sunGroup.style.height = "180px";
+        }
+        if (mean >= 4) {
+            sunGroup.style.width = "190px";
+            sunGroup.style.height = "190px";
+        }
+        if (mean >= 5) {
+            sunGroup.style.width = "200px";
+            sunGroup.style.height = "200px";
+        }
+        if (mean >= 6) {
+            sunGroup.style.width = "210px";
+            sunGroup.style.height = "210px";
+        }
+        if (mean >= 7) {
+            sunGroup.style.width = "220px";
+            sunGroup.style.height = "220px";
+        }
+        if (mean >= 8) {
+            sunGroup.style.width = "230px";
+            sunGroup.style.height = "230px";
+        }
+        return;
+    }
+    console.log(k);
+    balls[k].style.opacity = "1";
+    balls[k + 4].style.opacity = "1";
+    if (k > 0) {
+        for (let m = 0; m < k; m++) {
+            balls[m].style.opacity = "0.2";
+            balls[m + 4].style.opacity = "0.2";
+        }
+    }
+    k++;
 }
