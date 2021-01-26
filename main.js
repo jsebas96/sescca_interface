@@ -11,7 +11,7 @@ function createWindow() {
 
     win.loadFile('index.html')
     win.removeMenu()
-    win.webContents.openDevTools()
+    // win.webContents.openDevTools()
 
     // const win2 = new BrowserWindow({
     //     width: 1366,

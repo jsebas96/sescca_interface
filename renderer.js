@@ -1,4 +1,4 @@
-var test = setInterval(sendToPython, 10000);
+var test = setInterval(sendToPython, 15000);
 var { PythonShell } = require('python-shell');
 const lottie = require('./lottie');
 
@@ -10,8 +10,9 @@ byGroup.style.display = "none";
 var sunGroup = document.getElementById("sunGroup");
 sunGroup.style.width = "150px";
 sunGroup.style.height = "150px";
-var mean = 0;
-var result1 = "";
+var meansArray = [];
+
+
 lottie.loadAnimation({
     container: document.getElementById("lottie"), // the dom element that will contain the animation
     renderer: 'svg',
@@ -38,24 +39,25 @@ function sendToPython() {
         for (let i = 0; i < states[0].names.length; i++) {
             if (states[0].states[i]) {
                 if (states[0].names[i] == 'Vista Individual') {
-                    // console.log(states[0].names[i]);
+                    console.log(states[0].names[i]);
                     byStudent.style.display = "flex";
                     byGroup.style.display = "none";
-                    individualView();
+                    individualView(states[0].sections[i]);
                 } else if (states[0].names[i] == 'Vista Grupal') {
-                    // console.log(states[0].names[i]);
+                    console.log(states[0].names[i]);
                     byStudent.style.display = "none";
                     byGroup.style.display = "flex";
-                    groupView();
+                    groupView(states[0].sections[i]);
                 }
             }
         }
     });
 }
 
-function individualView() {
+function individualView(section_id) {
     let options = {
         mode: 'json',
+        args: [section_id]
     };
     let results1 = [];
     PythonShell.run('python/ind_view.py', options, function (err, results) {
@@ -78,7 +80,7 @@ function individualView() {
 }
 
 function showGUI(results1, times) {
-    if (global_control == times - 1) {
+    if (global_control >= times - 1) {
         global_control = -1;
     }
     global_control += 1;
@@ -96,7 +98,7 @@ function showGUI(results1, times) {
         output += '<div class="cloud">'
         if (i % 2 != 0) {
             output += '<img class="mb-1 ml-5" src="images/nube.png" alt="cloud" width="200" height="75">';
-            output += '<span class="text ml-5">' + results.names[i] + '</span>';
+            output += '<span class="text ml-2">' + results.names[i] + '</span>';
             output += '<img class="mb-1 ml-5" src="images/sol-con-cara.png" alt="sun" width="40" height="40"></img>';
             output += '<img class="mb-1" src="images/sol-con-cara.png" alt="sun" width="40" height="40"></img>';
             output += '<img class="mb-1" src="images/sol-con-cara.png" alt="sun" width="40" height="40"></img>';
@@ -132,19 +134,46 @@ function showGUI(results1, times) {
     }
 }
 
-function groupView() {
+function groupView(section_id) {
     let options = {
         mode: 'json',
+        args: [section_id]
     };
+    let result1 = [];
     PythonShell.run('python/group_view.py', options, function (err, result) {
         if (err) throw err;
-        result1 = result[0].means[0];
+        let i = 0, j = 0;
+        let times_group = result[0].means.length;
+        for (i = 0; i < times_group; i++) {
+            result1[i] = JSON.parse('{"names":[], "means":[]}');
+            result1[i].names = result[0].names[i];
+            result1[i].means = result[0].means[i];
+        }
+        if (meansArray.length != result[0].means.length){
+            while (meansArray.length != result[0].means.length){
+		if (result[0].means.length > meansArray.length){
+		    meansArray.push(0);
+    		} else if (result[0].means.length < meansArray.length){
+		    meansArray.pop();
+		}
+	    }
+	    for (j = 0; j < meansArray.length; j++) {
+                    meansArray[j] = result[0].means[j];
+            }
+        }
+        showGUIGroup(result1, times_group);
     });
-    console.log(result1);
-    showGUIGroup(result1);
 }
 
-function showGUIGroup(result) {
+function showGUIGroup(result1, times_group) {
+    if (global_control >= times_group - 1) {
+        global_control = -1;
+    }
+    global_control += 1;
+    let result = result1[global_control];
+    let cloud_group = document.getElementById("cloud_group");
+    cloud_group.innerHTML = result.names;
+
     ballLeft1 = document.getElementById("left-1");
     ballLeft2 = document.getElementById("left-2");
     ballLeft3 = document.getElementById("left-3");
@@ -160,14 +189,47 @@ function showGUIGroup(result) {
         element.style.opacity = "0.2";
     }
 
-    if (mean != result) {
-        mean = result;
-        lights();
+    if (result.means != meansArray[global_control]){
+        meansArray[global_control] = result.means;
+        lights(result.means); 
+    }
+
+    if (result.means >= 0) {
+        sunGroup.style.width = "160px";
+        sunGroup.style.height = "160px";
+    }
+    if (result.means >= 2) {
+        sunGroup.style.width = "170px";
+        sunGroup.style.height = "170px";
+    }
+    if (result.means >= 3) {
+        sunGroup.style.width = "180px";
+        sunGroup.style.height = "180px";
+    }
+    if (result.means >= 4) {
+        sunGroup.style.width = "190px";
+        sunGroup.style.height = "190px";
+    }
+    if (result.means >= 5) {
+        sunGroup.style.width = "200px";
+        sunGroup.style.height = "200px";
+    }
+    if (result.means >= 6) {
+        sunGroup.style.width = "210px";
+        sunGroup.style.height = "210px";
+    }
+    if (result.means >= 7) {
+        sunGroup.style.width = "220px";
+        sunGroup.style.height = "220px";
+    }
+    if (result.means >= 8) {
+        sunGroup.style.width = "230px";
+        sunGroup.style.height = "230px";
     }
 }
 
 var k = 0, callLights;
-function lights() {
+function lights(mean) {
     if (k == 0)
         callLights = setInterval(lights, 800);
     if (k > 3) {
@@ -176,11 +238,11 @@ function lights() {
         for (element of balls) {
             element.style.opacity = "0.2";
         }
-        if (mean >= 1) {
+        /*if (mean >= 0) {
             sunGroup.style.width = "160px";
             sunGroup.style.height = "160px";
         }
-        if (mean > 2) {
+        if (mean >= 2) {
             sunGroup.style.width = "170px";
             sunGroup.style.height = "170px";
         }
@@ -205,12 +267,12 @@ function lights() {
             sunGroup.style.height = "220px";
         }
         if (mean >= 8) {
-            sunGroup.style.width = "230px";
-            sunGroup.style.height = "230px";
-        }
+            sunGroup.style.width = "300px";
+            sunGroup.style.height = "300px";
+        }*/
         return;
     }
-    console.log(k);
+
     balls[k].style.opacity = "1";
     balls[k + 4].style.opacity = "1";
     if (k > 0) {

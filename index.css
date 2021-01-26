@@ -19,8 +19,9 @@ body, html {
     position: absolute;
     text-align: center;
     top: 30px;
-    left: 60px;
+    left: 45px;
     font-family: "Raleway", sans-serif;
+    font-size: 20px;
 }
 
 #bird1{
@@ -31,6 +32,17 @@ body, html {
 #bird2{
     margin-top: 200px; 
 }
+#cloud_group {
+    position: absolute;
+    text-align: center;
+    top: 60px;
+    left: 60px;
+    font-family: "Raleway", sans-serif;
+    font-size: 24px;
+    font-weight: bold;
+    color: #3e3b3b;
+}
+
 
 /* #cloud_2{
     background:transparent url('images/pajaro-negro.png') no-repeat right top;
