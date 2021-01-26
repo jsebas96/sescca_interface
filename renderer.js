@@ -191,45 +191,49 @@ function showGUIGroup(result1, times_group) {
 
     if (result.means != meansArray[global_control]){
         meansArray[global_control] = result.means;
-        lights(result.means); 
+        lights(); 
+        sun(result.means);
     }
 
-    if (result.means >= 0) {
+}
+
+function sun(mean){
+    if (mean >= 0) {
         sunGroup.style.width = "160px";
         sunGroup.style.height = "160px";
     }
-    if (result.means >= 2) {
+    if (mean >= 2) {
         sunGroup.style.width = "170px";
         sunGroup.style.height = "170px";
     }
-    if (result.means >= 3) {
+    if (mean >= 3) {
         sunGroup.style.width = "180px";
         sunGroup.style.height = "180px";
     }
-    if (result.means >= 4) {
+    if (mean >= 4) {
         sunGroup.style.width = "190px";
         sunGroup.style.height = "190px";
     }
-    if (result.means >= 5) {
+    if (mean >= 5) {
         sunGroup.style.width = "200px";
         sunGroup.style.height = "200px";
     }
-    if (result.means >= 6) {
+    if (mean >= 6) {
         sunGroup.style.width = "210px";
         sunGroup.style.height = "210px";
     }
-    if (result.means >= 7) {
+    if (mean >= 7) {
         sunGroup.style.width = "220px";
         sunGroup.style.height = "220px";
     }
-    if (result.means >= 8) {
+    if (mean >= 8) {
         sunGroup.style.width = "230px";
         sunGroup.style.height = "230px";
     }
 }
 
 var k = 0, callLights;
-function lights(mean) {
+function lights() {
     if (k == 0)
         callLights = setInterval(lights, 800);
     if (k > 3) {
@@ -238,38 +242,6 @@ function lights(mean) {
         for (element of balls) {
             element.style.opacity = "0.2";
         }
-        /*if (mean >= 0) {
-            sunGroup.style.width = "160px";
-            sunGroup.style.height = "160px";
-        }
-        if (mean >= 2) {
-            sunGroup.style.width = "170px";
-            sunGroup.style.height = "170px";
-        }
-        if (mean >= 3) {
-            sunGroup.style.width = "180px";
-            sunGroup.style.height = "180px";
-        }
-        if (mean >= 4) {
-            sunGroup.style.width = "190px";
-            sunGroup.style.height = "190px";
-        }
-        if (mean >= 5) {
-            sunGroup.style.width = "200px";
-            sunGroup.style.height = "200px";
-        }
-        if (mean >= 6) {
-            sunGroup.style.width = "210px";
-            sunGroup.style.height = "210px";
-        }
-        if (mean >= 7) {
-            sunGroup.style.width = "220px";
-            sunGroup.style.height = "220px";
-        }
-        if (mean >= 8) {
-            sunGroup.style.width = "300px";
-            sunGroup.style.height = "300px";
-        }*/
         return;
     }
 
