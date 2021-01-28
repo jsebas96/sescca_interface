@@ -112,8 +112,14 @@ function showGUI(results1, times) {
             output += '<img class="mb-1 ml-5" src="images/sol-con-cara.png" alt="sun" width="40" height="40"></img>';
             output += '<img class="mb-1" src="images/sol-con-cara.png" alt="sun" width="40" height="40"></img>';
             output += '<img class="mb-1" src="images/sol-con-cara.png" alt="sun" width="40" height="40"></img>';
-            for (j = 0; j < results.scores[i]; j++) {
-                output += '<img class="mb-1" src="images/sol-con-cara.png" alt="sun" width="40" height="40"></img>';
+            for (j = 1; j <= Math.ceil(results.scores[i]/20); j++) {
+                if (j == Math.ceil(results.scores[i]/20) && results.scores[i] % 5 != 0) {
+                    output += '<img class="mb-1" src="images/sol-con-cara.png" alt="sun" width="40" height="40" ';
+                    output += 'style="opacity:' + (results.scores[i] % 5) * 0.2 + ';"></img>';
+                    console.log((results.scores[i] % 5) * 0.2);
+                } else{
+                    output += '<img class="mb-1" src="images/sol-con-cara.png" alt="sun" width="40" height="40"></img>';
+                }
             }
         }
         output += '</div>'
@@ -170,6 +176,7 @@ function showGUIGroup(result1, times_group) {
         global_control = -1;
     }
     global_control += 1;
+    var success = false;
     let result = result1[global_control];
     let cloud_group = document.getElementById("cloud_group");
     cloud_group.innerHTML = result.names;
@@ -191,7 +198,9 @@ function showGUIGroup(result1, times_group) {
 
     if (result.means != meansArray[global_control]){
         meansArray[global_control] = result.means;
-        lights(); 
+        success = lights(); 
+    }
+    if (success == true) {
         sun(result.means);
     }
 
@@ -242,7 +251,7 @@ function lights() {
         for (element of balls) {
             element.style.opacity = "0.2";
         }
-        return;
+        return true;
     }
 
     balls[k].style.opacity = "1";
