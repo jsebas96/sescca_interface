@@ -2,6 +2,8 @@ var test = setInterval(sendToPython, 15000);
 var { PythonShell } = require('python-shell');
 const lottie = require('./lottie');
 
+var view = false;
+
 var byStudent = document.getElementById("ByStudent");
 var byGroup = document.getElementById("ByGroup");
 byStudent.style.display = "none";
@@ -36,20 +38,28 @@ function sendToPython() {
 
     PythonShell.run('python/which_view.py', options, function (err, states) {
         if (err) throw err;
+        view = false;
         for (let i = 0; i < states[0].names.length; i++) {
+            // console.log(states[0].states[i]);
             if (states[0].states[i]) {
                 if (states[0].names[i] == 'Vista Individual') {
-                    console.log(states[0].names[i]);
+                    // console.log(states[0].names[i]);
+                    view = true;
                     byStudent.style.display = "flex";
                     byGroup.style.display = "none";
                     individualView(states[0].sections[i]);
                 } else if (states[0].names[i] == 'Vista Grupal') {
-                    console.log(states[0].names[i]);
+                    // console.log(states[0].names[i]);
+                    view = true;
                     byStudent.style.display = "none";
                     byGroup.style.display = "flex";
                     groupView(states[0].sections[i]);
                 }
             }
+        }
+        if (view == false) {
+            byStudent.style.display = "none";
+            byGroup.style.display = "none";
         }
     });
 }
@@ -116,7 +126,7 @@ function showGUI(results1, times) {
                 if (j == Math.ceil(results.scores[i] / 20) && results.scores[i] % 5 != 0) {
                     output += '<img class="mb-1" src="images/sol-con-cara.png" alt="sun" width="40" height="40" ';
                     output += 'style="opacity:' + (results.scores[i] % 5) * 0.2 + ';"></img>';
-                    console.log((results.scores[i] % 5) * 0.2);
+                    // console.log((results.scores[i] % 5) * 0.2);
                 } else {
                     output += '<img class="mb-1" src="images/sol-con-cara.png" alt="sun" width="40" height="40"></img>';
                 }
@@ -285,7 +295,7 @@ function lights(promedio) {
 function lightsReverse(promedio) {
     if (k == 3)
         callLightsReverse = setInterval(lightsReverse, 800, [promedio]);
-        sun(promedio);
+    sun(promedio);
     if (k == -1) {
         clearInterval(callLightsReverse);
         k = 0;
