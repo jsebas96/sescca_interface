@@ -11,7 +11,7 @@ var sunGroup = document.getElementById("sunGroup");
 sunGroup.style.width = "150px";
 sunGroup.style.height = "150px";
 var meansArray = [];
-
+var k = 0, callLights, callLightsReverse;
 
 lottie.loadAnimation({
     container: document.getElementById("lottie"), // the dom element that will contain the animation
@@ -112,12 +112,12 @@ function showGUI(results1, times) {
             output += '<img class="mb-1 ml-5" src="images/sol-con-cara.png" alt="sun" width="40" height="40"></img>';
             output += '<img class="mb-1" src="images/sol-con-cara.png" alt="sun" width="40" height="40"></img>';
             output += '<img class="mb-1" src="images/sol-con-cara.png" alt="sun" width="40" height="40"></img>';
-            for (j = 1; j <= Math.ceil(results.scores[i]/20); j++) {
-                if (j == Math.ceil(results.scores[i]/20) && results.scores[i] % 5 != 0) {
+            for (j = 1; j <= Math.ceil(results.scores[i] / 20); j++) {
+                if (j == Math.ceil(results.scores[i] / 20) && results.scores[i] % 5 != 0) {
                     output += '<img class="mb-1" src="images/sol-con-cara.png" alt="sun" width="40" height="40" ';
                     output += 'style="opacity:' + (results.scores[i] % 5) * 0.2 + ';"></img>';
                     console.log((results.scores[i] % 5) * 0.2);
-                } else{
+                } else {
                     output += '<img class="mb-1" src="images/sol-con-cara.png" alt="sun" width="40" height="40"></img>';
                 }
             }
@@ -155,16 +155,16 @@ function groupView(section_id) {
             result1[i].names = result[0].names[i];
             result1[i].means = result[0].means[i];
         }
-        if (meansArray.length != result[0].means.length){
-            while (meansArray.length != result[0].means.length){
-		if (result[0].means.length > meansArray.length){
-		    meansArray.push(0);
-    		} else if (result[0].means.length < meansArray.length){
-		    meansArray.pop();
-		}
-	    }
-	    for (j = 0; j < meansArray.length; j++) {
-                    meansArray[j] = result[0].means[j];
+        if (meansArray.length != result[0].means.length) {
+            while (meansArray.length != result[0].means.length) {
+                if (result[0].means.length > meansArray.length) {
+                    meansArray.push(0);
+                } else if (result[0].means.length < meansArray.length) {
+                    meansArray.pop();
+                }
+            }
+            for (j = 0; j < meansArray.length; j++) {
+                meansArray[j] = result[0].means[j];
             }
         }
         showGUIGroup(result1, times_group);
@@ -176,7 +176,6 @@ function showGUIGroup(result1, times_group) {
         global_control = -1;
     }
     global_control += 1;
-    var success = false;
     let result = result1[global_control];
     let cloud_group = document.getElementById("cloud_group");
     cloud_group.innerHTML = result.names;
@@ -196,62 +195,80 @@ function showGUIGroup(result1, times_group) {
         element.style.opacity = "0.2";
     }
 
-    if (result.means != meansArray[global_control]){
-        meansArray[global_control] = result.means;
-        success = lights(); 
-    }
-    if (success == true) {
+    if (result.means != meansArray[global_control]) {
+        if (result.means > meansArray[global_control]) {
+            meansArray[global_control] = result.means;
+            lights(result.means);
+        } else {
+            meansArray[global_control] = result.means;
+            k = 3;
+            lightsReverse(result.means);
+        }
+    } else {
         sun(result.means);
     }
 
 }
 
-function sun(mean){
+function sun(mean) {
     if (mean >= 0) {
         sunGroup.style.width = "160px";
         sunGroup.style.height = "160px";
     }
-    if (mean >= 2) {
+    if (mean >= 10) {
         sunGroup.style.width = "170px";
         sunGroup.style.height = "170px";
     }
-    if (mean >= 3) {
+    if (mean >= 20) {
         sunGroup.style.width = "180px";
         sunGroup.style.height = "180px";
     }
-    if (mean >= 4) {
+    if (mean >= 30) {
         sunGroup.style.width = "190px";
         sunGroup.style.height = "190px";
     }
-    if (mean >= 5) {
+    if (mean >= 40) {
         sunGroup.style.width = "200px";
         sunGroup.style.height = "200px";
     }
-    if (mean >= 6) {
+    if (mean >= 50) {
         sunGroup.style.width = "210px";
         sunGroup.style.height = "210px";
     }
-    if (mean >= 7) {
+    if (mean >= 60) {
         sunGroup.style.width = "220px";
         sunGroup.style.height = "220px";
     }
-    if (mean >= 8) {
+    if (mean >= 70) {
         sunGroup.style.width = "230px";
         sunGroup.style.height = "230px";
     }
+    if (mean >= 80) {
+        sunGroup.style.width = "240px";
+        sunGroup.style.height = "240px";
+    }
+    if (mean >= 90) {
+        sunGroup.style.width = "250px";
+        sunGroup.style.height = "250px";
+    }
+    if (mean == 100) {
+        sunGroup.style.width = "260px";
+        sunGroup.style.height = "260px";
+    }
+    return;
 }
 
-var k = 0, callLights;
-function lights() {
+function lights(promedio) {
     if (k == 0)
-        callLights = setInterval(lights, 800);
+        callLights = setInterval(lights, 800, [promedio]);
     if (k > 3) {
         clearInterval(callLights);
         k = 0;
         for (element of balls) {
             element.style.opacity = "0.2";
         }
-        return true;
+        sun(promedio);
+        return;
     }
 
     balls[k].style.opacity = "1";
@@ -263,4 +280,28 @@ function lights() {
         }
     }
     k++;
+}
+
+function lightsReverse(promedio) {
+    if (k == 3)
+        callLightsReverse = setInterval(lightsReverse, 800, [promedio]);
+        sun(promedio);
+    if (k == -1) {
+        clearInterval(callLightsReverse);
+        k = 0;
+        for (element of balls) {
+            element.style.opacity = "0.2";
+        }
+        return;
+    }
+
+    balls[k].style.opacity = "1";
+    balls[k + 4].style.opacity = "1";
+    if (k < 3) {
+        for (let m = 3; m > k; m--) {
+            balls[m].style.opacity = "0.2";
+            balls[m + 4].style.opacity = "0.2";
+        }
+    }
+    k--;
 }
