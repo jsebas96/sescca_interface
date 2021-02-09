@@ -1,5 +1,6 @@
 node_modules/
 .vscode/
+Sescca-linux-armv7l
 ind_view.py
 group_view.py
 which_view.py

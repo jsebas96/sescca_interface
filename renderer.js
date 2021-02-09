@@ -36,7 +36,7 @@ function sendToPython() {
         mode: 'json',
     };
 
-    PythonShell.run('python/which_view.py', options, function (err, states) {
+    PythonShell.run('/home/pi/sescca/sescca_interface/python/which_view.py', options, function (err, states) {
         if (err) throw err;
         view = false;
         for (let i = 0; i < states[0].names.length; i++) {
@@ -70,7 +70,7 @@ function individualView(section_id) {
         args: [section_id]
     };
     let results1 = [];
-    PythonShell.run('python/ind_view.py', options, function (err, results) {
+    PythonShell.run('/home/pi/sescca/sescca_interface/python/ind_view.py', options, function (err, results) {
         if (err) throw err;
         let i = 0, j = 0, k = 0;
         let times = Math.ceil(results[0].names.length / 12);
@@ -123,9 +123,9 @@ function showGUI(results1, times) {
             output += '<img class="mb-1" src="images/sol-con-cara.png" alt="sun" width="40" height="40"></img>';
             output += '<img class="mb-1" src="images/sol-con-cara.png" alt="sun" width="40" height="40"></img>';
             for (j = 1; j <= Math.ceil(results.scores[i] / 20); j++) {
-                if (j == Math.ceil(results.scores[i] / 20) && results.scores[i] % 5 != 0) {
+                if (j == Math.ceil(results.scores[i] / 20) && results.scores[i] % 20 != 0) {
                     output += '<img class="mb-1" src="images/sol-con-cara.png" alt="sun" width="40" height="40" ';
-                    output += 'style="opacity:' + (results.scores[i] % 5) * 0.2 + ';"></img>';
+                    output += 'style="opacity:' + (results.scores[i] % 20) * 0.05 + ';"></img>';
                     // console.log((results.scores[i] % 5) * 0.2);
                 } else {
                     output += '<img class="mb-1" src="images/sol-con-cara.png" alt="sun" width="40" height="40"></img>';
@@ -156,7 +156,7 @@ function groupView(section_id) {
         args: [section_id]
     };
     let result1 = [];
-    PythonShell.run('python/group_view.py', options, function (err, result) {
+    PythonShell.run('/home/pi/sescca/sescca_interface/python/group_view.py', options, function (err, result) {
         if (err) throw err;
         let i = 0, j = 0;
         let times_group = result[0].means.length;
