@@ -19,8 +19,9 @@ body, html {
     position: absolute;
     text-align: center;
     top: 30px;
-    left: 60px;
+    left: 45px;
     font-family: "Raleway", sans-serif;
+    font-size: 20px;
 }
 
 #bird1{
@@ -31,14 +32,13 @@ body, html {
 #bird2{
     margin-top: 200px; 
 }
-
-/* #cloud_2{
-    background:transparent url('images/pajaro-negro.png') no-repeat right top;
-    background-size: 100px 100px;
-    background-attachment: fixed;
+#cloud_group {
+    position: absolute;
+    text-align: center;
+    top: 60px;
+    left: 50px;
+    font-family: "Raleway", sans-serif;
+    font-size: 24px;
+    font-weight: bold;
+    color: #3e3b3b;
 }
-#cloud_1{
-    background:transparent url('images/pajaro-rojo.png') no-repeat left center;
-    background-size: 80px 80px;
-    background-attachment: fixed;
-} */

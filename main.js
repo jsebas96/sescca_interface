@@ -2,8 +2,8 @@ const { app, BrowserWindow } = require('electron')
 
 function createWindow() {
     const win = new BrowserWindow({
-        width: 1366,
-        height: 768,
+        width: 1920,
+        height: 1080,
         webPreferences: {
             nodeIntegration: true
         }
@@ -13,16 +13,16 @@ function createWindow() {
     win.removeMenu()
     // win.webContents.openDevTools()
 
-    const win2 = new BrowserWindow({
-        width: 1366,
-        height: 768,
-        webPreferences: {
-            nodeIntegration: true
-        }
-    })
-    win2.loadFile('group_mean.html')
-    win2.removeMenu()
-    // win2.webContents.openDevTools()
+    // const win2 = new BrowserWindow({
+    //     width: 1366,
+    //     height: 768,
+    //     webPreferences: {
+    //         nodeIntegration: true
+    //     }
+    // })
+    // win2.loadFile('group_mean.html')
+    // win2.removeMenu()
+    // // win2.webContents.openDevTools()
 }
 
 app.whenReady().then(createWindow)

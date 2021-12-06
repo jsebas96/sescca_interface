@@ -4,7 +4,9 @@
   "description": "",
   "main": "main.js",
   "scripts": {
-    "start": "electron ."
+    "start": "electron .",
+    "package": "asar pack Sescca-linux-armv7l/resources/app Sescca-linux-armv7l/resources/app.asar",
+    "build": "electron-packager . Sescca --ignore-node_modules/electron-*"
   },
   "keywords": [],
   "author": "",
@@ -13,6 +15,8 @@
     "electron": "^10.1.5"
   },
   "dependencies": {
+    "asar": "^3.0.3",
+    "electron-packager": "^15.2.0",
     "lottie-web": "^5.7.4",
     "python-shell": "^2.0.2"
   }
